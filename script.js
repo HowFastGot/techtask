@@ -17,29 +17,20 @@ function handleDivMovmentAtTop(divElement) {
 }
 
 function handleDivMovmentAtDefaultPos(divElement) {
-	const divDefaultPosition = divElement.dataset.default_position;
-	const adjacenteePosition = divDefaultPosition > 1 && divDefaultPosition - 1;
+	const divDataSet = document.getElementsByTagName('div');
+	const liveCollectionAdjacenteePosition = divElement.dataset.default_position - 1;
 
-	let movedDivAdjacentee;
+	const movedDivAdjacantee = divDataSet[liveCollectionAdjacenteePosition];
+	movedDivAdjacantee.after(divElement);
 
-	if (adjacenteePosition) {
-		movedDivAdjacentee = document.querySelector(`[data-default_position="${adjacenteePosition}"]`);
-	} else {
-		//if user's click was at the first div
-		divElement.setAttribute('data-isMoved', false);
-		document.body.prepend(divElement);
-		return;
-	}
-
-	if (!movedDivAdjacentee) throw new Error('Check the searching selector at 23th line of the codebase!');
-
-	movedDivAdjacentee.after(divElement);
 	divElement.setAttribute('data-isMoved', false);
 }
 
 function handleDivMovment(e) {
 	e.stopPropagation();
 	const clickedDiv = e.target;
+
+	if (!clickedDiv) throw new Error('Something is wrong!');
 
 	const wasDivMovedBefore = Boolean(clickedDiv.dataset['ismoved'] === 'true');
 
